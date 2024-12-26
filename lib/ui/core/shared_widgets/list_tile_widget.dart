@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:app_eclipseworkd/ui/core/shared_widgets/list_tile_img.dart';
+import 'package:app_eclipseworkd/ui/core/shared_widgets/web_view_video.dart';
 import 'package:flutter/material.dart';
 import 'package:app_eclipseworkd/utils/helpers.dart';
 import 'package:app_eclipseworkd/domain/models/apod_model.dart';
@@ -44,27 +45,21 @@ class ListTileWidget extends StatelessWidget {
                       Icons.favorite_sharp,
                       color: Colors.redAccent,
                     )),
-            leading: item.mediaType.isVideo
-                ? CachedNetworkImage(
-                    imageUrl: item.thumb!,
-                    cacheKey: item.thumb!,
-                    height: 50,
-                    width: 50,
-                  )
-                : CachedNetworkImage(
-                    imageUrl: item.url!,
-                    cacheKey: item.url!,
-                    height: 50,
-                    width: 50,
-                  ),
+            leading: LeadingImgListTile(item: item),
             title: Text(item.title ?? ''),
             subtitle: Text(item.mediaType.toCapitalized),
           );
         },
         openBuilder: (context, action) {
-          return item.mediaType.isVideo
-              ? YoutubeVideoPlayer(item: item)
-              : ImageView(item: item);
+          if (item.mediaType.isVideo) {
+            if (item.url?.contains('youtube') == true) {
+              return YoutubeVideoPlayer(item: item);
+            } else {
+              return WebViewVideo(item: item);
+            }
+          } else {
+            return ImageView(item: item);
+          }
         },
       ),
     );

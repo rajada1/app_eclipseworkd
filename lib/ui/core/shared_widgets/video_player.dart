@@ -1,6 +1,7 @@
 import 'package:app_eclipseworkd/domain/models/apod_model.dart';
 import 'package:app_eclipseworkd/ui/core/shared_widgets/see_apod_details_btn.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YoutubeVideoPlayer extends StatefulWidget {
@@ -18,13 +19,18 @@ class _YoutubeVideoPlayerState extends State<YoutubeVideoPlayer> {
   @override
   void initState() {
     super.initState();
-    _controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(widget.item.url!)!,
-      flags: const YoutubePlayerFlags(
-        autoPlay: false,
-        mute: false,
-      ),
-    );
+
+    if (widget.item.url?.contains('youtube') == true) {
+      _controller = YoutubePlayerController(
+        initialVideoId: YoutubePlayer.convertUrlToId(widget.item.url!)!,
+        flags: const YoutubePlayerFlags(
+          autoPlay: false,
+          mute: false,
+        ),
+      );
+    } else {
+      launchUrlString(widget.item.url!);
+    }
   }
 
   @override

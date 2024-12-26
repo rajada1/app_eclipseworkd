@@ -36,6 +36,22 @@ extension StringExtensions on String? {
   }
 
   bool get isVideo => (this?.toLowerCase() == 'video');
+  bool get isImageUrl {
+    if (this == null) {
+      return false;
+    }
+    const imageExtensions = [
+      ".jpg",
+      ".jpeg",
+      ".png",
+      ".gif",
+      ".bmp",
+      ".webp",
+      ".svg"
+    ];
+    return imageExtensions
+        .any((extension) => this!.toLowerCase().endsWith(extension));
+  }
 
   String get seeMoreApodUrlMake {
     if (this == null) {
