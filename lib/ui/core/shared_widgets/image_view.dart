@@ -26,12 +26,14 @@ class _ImageViewState extends State<ImageView>
   @override
   void initState() {
     _animationController = AnimationController(vsync: this, duration: 700.ms);
+
     super.initState();
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    hide.dispose();
     super.dispose();
   }
 
